@@ -32,15 +32,18 @@
 
 "use client"
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 
 interface NavbarProps {
   className?: string;
 }
 
+let scrollInterval: NodeJS.Timeout | null = null;
+
 const Navbar: React.FC<NavbarProps> = ({ className }) => {
+  const [isHovered, setIsHovered] = useState(false);
   const navbarRef = useRef<HTMLUListElement>(null);
-  let scrollInterval: NodeJS.Timeout | null = null;
 
   const scrollCategories = (scrollOffset: number) => {
     if (navbarRef.current) {
@@ -52,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
     if (!scrollInterval) {
       scrollInterval = setInterval(() => {
         scrollCategories(scrollOffset);
-      }, 0); // Adjust the scrolling speed as needed
+      }, 10); // Adjust the scrolling speed as needed
     }
   };
 
@@ -65,21 +68,27 @@ const Navbar: React.FC<NavbarProps> = ({ className }) => {
 
   return (
     <nav className={`bg-gray-700 text-black p-2 bg-white border-t-2 relative ${className}`}>
+    <div
+      className={`absolute left-0 xl:left-20 top-0 h-full w-10 flex justify-center items-center cursor-pointer rounded-3xl
+      ${isHovered ? 'bg-black text-white' : 'bg-white'}`}
+      onMouseDown={() => { startScrolling(-5); setIsHovered(true); }}
+      onMouseUp={() => { stopScrolling(); setIsHovered(false); }}
+      onMouseLeave={() => { stopScrolling(); setIsHovered(false); }}
+      onTouchStart={() => { startScrolling(-5); setIsHovered(true); }}
+      onTouchEnd={() => { stopScrolling(); setIsHovered(false); }}
+    >
+      <SlArrowLeft />
+    </div>
       <div
-        className="absolute left-0 xl:left-20 top-0 h-full w-10 bg-gray-300 flex justify-center items-center"
-        onMouseDown={() => startScrolling(-5)} // Adjust the scrollOffset and speed as needed
-        onMouseUp={stopScrolling}
-        onMouseLeave={stopScrolling}
+        className={`absolute right-0 xl:right-20 top-0 h-full w-10 flex justify-center items-center cursor-pointer rounded-3xl 
+        ${isHovered ? 'bg-black text-white' : 'bg-white'}`}
+        onMouseDown={() => { startScrolling(5); setIsHovered(true); }}
+        onMouseUp={() => { stopScrolling(); setIsHovered(false); }}
+        onMouseLeave={() => { stopScrolling(); setIsHovered(false); }}
+        onTouchStart={() => { startScrolling(5); setIsHovered(true); }}
+      onTouchEnd={() => { stopScrolling(); setIsHovered(false); }}
       >
-        {'<'}
-      </div>
-      <div
-        className="absolute right-0 xl:right-20 top-0 h-full w-10 bg-gray-300 flex justify-center items-center"
-        onMouseDown={() => startScrolling(5)} // Adjust the scrollOffset and speed as needed
-        onMouseUp={stopScrolling}
-        onMouseLeave={stopScrolling}
-      >
-        {'>'}
+        <SlArrowRight />
       </div>
       <ul ref={navbarRef} className="flex overflow-x-hidden justify-between">
         <li className="mr-4 whitespace-nowrap">NEWS</li>
