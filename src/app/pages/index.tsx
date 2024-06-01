@@ -1,4 +1,5 @@
 import Header from '../components/Header';
+import MainCard from '../components/MainCard';
 import Navbar from '../components/Navbar';
 
 const Dashboard = () => {
@@ -11,15 +12,10 @@ const Dashboard = () => {
         {/* News Section */}
         <section className="p-4 bg-white rounded-lg shadow-md">
             {/* News Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {/* News Card */}
-            <div className="bg-white rounded-lg shadow p-4">
-                <h2 className="text-lg font-semibold mb-2">News Title</h2>
-                <p className="text-gray-600">News Description</p>
-                {/* Add more details as needed */}
-            </div>
-            {/* Add more news cards as needed */}
-            </div>
+            <section className="p-4 bg-white rounded-lg shadow-md">
+          {/* News Cards */}
+          <MainCard />
+        </section>
         </section>
         </div>
     </div>
