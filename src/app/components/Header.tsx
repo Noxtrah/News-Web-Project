@@ -5,9 +5,6 @@ import { IoIosSettings, IoIosNotificationsOutline } from 'react-icons/io';
 import Image from 'next/image';
 import { SetStateAction, useEffect, useState } from 'react';
 import LoginPopup from './LoginPopup';
-// import { Route, Link } from 'react-router-dom';
-import Link from 'next/link'
-
 
 interface HeaderProps {
   className?: string;
@@ -45,7 +42,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     // Open a new tab with the search query as a parameter
     window.open(`/searchedNewsCategory?searchQuery=${encodedQuery}`, '_blank');
   };
-  
+
 
   return (
     <header className={`bg-white text-black p-4 flex items-center ${className}`}>
