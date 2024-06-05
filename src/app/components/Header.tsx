@@ -3,8 +3,11 @@
 import { HiUserCircle } from 'react-icons/hi';
 import { IoIosSettings, IoIosNotificationsOutline } from 'react-icons/io';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import LoginPopup from './LoginPopup';
+// import { Route, Link } from 'react-router-dom';
+import Link from 'next/link'
+
 
 interface HeaderProps {
   className?: string;
@@ -13,6 +16,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const [userProfilePicture, setUserProfilePicture] = useState<string | undefined>(undefined);
+  const [searchQuery, setSearchQuery] = useState('');
+
   useEffect(() => {
     // Extract the query string from the URL
     const queryParams = new URLSearchParams(window.location.search);
@@ -31,6 +36,17 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     setIsDropdownVisible((prev) => !prev);
   };
 
+  const handleSearchInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearch = () => {
+    const encodedQuery = encodeURIComponent(searchQuery);
+    // Open a new tab with the search query as a parameter
+    window.open(`/searchedNewsCategory?searchQuery=${encodedQuery}`, '_blank');
+  };
+  
+
   return (
     <header className={`bg-white text-black p-4 flex items-center ${className}`}>
       {/* Logo */}
@@ -44,7 +60,10 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           type="text"
           placeholder="Search news..."
           className="w-full max-w-10xl px-2 py-1 border border-gray-600 rounded-lg"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
         />
+         <button onClick={handleSearch} className="ml-2 px-4 py-1 bg-blue-500 text-white rounded-lg">Search</button>
       </div>
 
       {/* Icons */}

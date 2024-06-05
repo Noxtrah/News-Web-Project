@@ -13,6 +13,9 @@ const nextConfig = {
         },
       ],
     },
+    pageExtensions: ['tsx', 'jsx'],
   };
+
+  
 
   export default nextConfig;

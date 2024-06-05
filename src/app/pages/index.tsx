@@ -44,7 +44,7 @@ const Index: React.FC = () => {
 
   return (
     <div className='bg-gray-100 min-h-screen'>
-      <div className='p-4 md:px-8 lg:px-16 xl:px-32'>
+      <div className='p-2 md:px-8 lg:px-16 xl:px-32'>
         <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" userProfilePicture={userProfilePicture} />
 
         {/* News Section */}
