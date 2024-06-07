@@ -25,8 +25,17 @@ const SearchedNewsCategoryPage: React.FC = () => {
   const [newsData, setNewsData] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('');
-  console.log('Selected category in state:', selectedCategory);
+  const [userProfilePicture, setUserProfilePictureLocal] = useState<string | undefined>(undefined);
 
+  useEffect(() => {
+    // const urlParams = new URLSearchParams(window.location.search);
+    const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
+    if (userProfilePictureParam) {
+      setUserProfilePictureLocal(userProfilePictureParam);
+      // Dispatch action to set user profile picture in Redux store
+      // dispatch(setUserProfilePicture(userProfilePictureParam)); // This should return an action object
+    }
+  }, []);
 
   useEffect(() => {
     if (searchQuery) {
@@ -94,7 +103,7 @@ const SearchedNewsCategoryPage: React.FC = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className='p-2 md:px-8 lg:px-16 xl:px-32'>
-        <Header className='px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40' />
+      <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" userProfilePicture={userProfilePicture} />
         <Navbar onCategorySelect={(category) => handleCategoryChange(category)} className="px-12 sm:px-12 md:px-12 lg:px-18 xl:px-40" firstCategory={query.toUpperCase() || 'RANDOM'} />
         <section className="p-4 bg-white rounded-lg shadow-md">
           <main className="container mx-auto p-4">

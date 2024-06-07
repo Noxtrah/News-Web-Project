@@ -26,21 +26,46 @@
 
 "use client"
 
+import { setUserProfilePicture } from '../redux/actions';
+import { useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import NewsPage from '../components/NewsPage';
 
 const Index: React.FC = () => {
-  const [userProfilePicture, setUserProfilePicture] = useState<string | undefined>(undefined);
+  const [userProfilePicture, setUserProfilePictureLocal] = useState<string | undefined>(undefined);
+  const [sub, setSub] = useState<string | null>(null);
+  // const dispatch = useDispatch();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userProfilePictureParam = urlParams.get('userProfilePicture');
-    if (userProfilePictureParam) {
-      setUserProfilePicture(userProfilePictureParam);
+    // Check if the "sub" value is already stored in localStorage
+    const storedSub = localStorage.getItem('sub');
+    if (storedSub) {
+      setSub(storedSub);
+    } else {
+      // If not found in localStorage, retrieve it from URL params and store it
+      const urlParams = new URLSearchParams(window.location.search);
+      const subParam = urlParams.get('sub');
+      if (subParam) {
+        setSub(subParam);
+        // Store the "sub" value in localStorage for future use
+        localStorage.setItem('sub', subParam);
+      }
     }
   }, []);
+
+
+  useEffect(() => {
+    // const urlParams = new URLSearchParams(window.location.search);
+    const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
+    if (userProfilePictureParam) {
+      setUserProfilePictureLocal(userProfilePictureParam);
+      // Dispatch action to set user profile picture in Redux store
+      // dispatch(setUserProfilePicture(userProfilePictureParam)); // This should return an action object
+    }
+  }, []);
+  // }, [dispatch]);
 
   return (
     <div className='bg-gray-100 min-h-screen'>

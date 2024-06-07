@@ -5,14 +5,18 @@ import { IoIosSettings, IoIosNotificationsOutline } from 'react-icons/io';
 import Image from 'next/image';
 import { SetStateAction, useEffect, useState } from 'react';
 import LoginPopup from './LoginPopup';
+import NewestNews from '../components/NewestNews';
+
+
 
 interface HeaderProps {
   className?: string;
   userProfilePicture?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ className }) => {
-  const [userProfilePicture, setUserProfilePicture] = useState<string | undefined>(undefined);
+const Header: React.FC<HeaderProps> = ({ className, userProfilePicture }) => {
+  // Remove userProfilePicture state variable declaration
+
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -24,13 +28,25 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       const userData = JSON.parse(userProfileData);
       console.log(userData);
       const profilePicture = userData.photos && userData.photos.length > 0 ? userData.photos[0].value : undefined;
-      setUserProfilePicture(profilePicture);
+      localStorage.setItem('storedUserProfilePicture', profilePicture);
+      const userID = userData.id && userData.id.length > 0 ? userData.id : undefined;
+      localStorage.setItem("userID", userID);
+
+      // No need to set userProfilePicture state here
     }
   }, []);
+
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownVisible((prev) => !prev);
+  };
+
+  const [isNewsVisible, setIsNewsVisible] = useState(false);
+
+
+  const toggleNewsVisibility = () => {
+    setIsNewsVisible((prev) => !prev);
   };
 
   const handleSearchInputChange = (event: { target: { value: SetStateAction<string>; }; }) => {
@@ -88,8 +104,13 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           <IoIosSettings className="w-6 h-6 text-gray-500 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-8 lg:h-8 xl:w-8 xl:h-8" />
         </div>
         {/* Notification Bell */}
-        <div className="bg-white rounded-3xl">
+        <div className="bg-white rounded-3xl relative" onClick={toggleNewsVisibility}>
           <IoIosNotificationsOutline className="w-6 h-6 text-yellow-500 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-8 lg:h-8 xl:w-8 xl:h-8" />
+          {isNewsVisible && (
+             <div className="absolute z-20 mt-2 w-80 sm:w-80 md:w-96 lg:w-96 xl:w-96 sm:right-0 md:right-0 transform -translate-x-1/5 right-0">
+             <NewestNews />
+           </div>
+          )}
         </div>
       </div>
     </header>

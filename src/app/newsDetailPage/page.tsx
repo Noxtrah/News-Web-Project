@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { NewsItem } from '../types';
 import Header from '../components/Header';
+import RecommendationCard from '../components/RecommendationCard';
 
 const NewsDetailPage: React.FC = () => {
   const searchParams = useSearchParams();
@@ -11,9 +12,12 @@ const NewsDetailPage: React.FC = () => {
   const [userProfilePicture, setUserProfilePicture] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userProfilePictureParam = urlParams.get('userProfilePicture');
+    // const urlParams = new URLSearchParams(window.location.search);
+    const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
+    console.log("Item === " , userProfilePictureParam);
     if (userProfilePictureParam) {
+      console.log("Triggered");
+
       setUserProfilePicture(userProfilePictureParam);
     }
   }, []);
@@ -81,6 +85,7 @@ const NewsDetailPage: React.FC = () => {
           </div>
           <p className="text-lg text-gray-700 pt-4 p-6">{newsItem.Description}</p>
         </div>
+        <RecommendationCard />
       </div>
     </div>
   );
