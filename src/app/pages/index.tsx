@@ -34,25 +34,25 @@ import { useTranslation } from 'react-i18next';
 const Index: React.FC = () => {
   const { t } = useTranslation();
   const [userProfilePicture, setUserProfilePictureLocal] = useState<string | undefined>(undefined);
-  const [sub, setSub] = useState<string | null>(null);
-  // const dispatch = useDispatch();
+  // const [sub, setSub] = useState<string | null>(null);
+  // // const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Check if the "sub" value is already stored in localStorage
-    const storedSub = localStorage.getItem('sub');
-    if (storedSub) {
-      setSub(storedSub);
-    } else {
-      // If not found in localStorage, retrieve it from URL params and store it
-      const urlParams = new URLSearchParams(window.location.search);
-      const subParam = urlParams.get('sub');
-      if (subParam) {
-        setSub(subParam);
-        // Store the "sub" value in localStorage for future use
-        localStorage.setItem('sub', subParam);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Check if the "sub" value is already stored in localStorage
+  //   const storedSub = localStorage.getItem('sub');
+  //   if (storedSub) {
+  //     setSub(storedSub);
+  //   } else {
+  //     // If not found in localStorage, retrieve it from URL params and store it
+  //     const urlParams = new URLSearchParams(window.location.search);
+  //     const subParam = urlParams.get('sub');
+  //     if (subParam) {
+  //       setSub(subParam);
+  //       // Store the "sub" value in localStorage for future use
+  //       localStorage.setItem('sub', subParam);
+  //     }
+  //   }
+  // }, []);
 
 
   useEffect(() => {
