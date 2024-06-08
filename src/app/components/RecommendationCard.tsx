@@ -14,12 +14,14 @@ const RecommendationCard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let language = localStorage.getItem('selectedLanguage') || 'en';
-        setSelectedLanguage(language);
-        const userID = localStorage.getItem('userID');
-        const response = await fetch(`http://localhost:5000/recommendations?userID=${userID}&language=${language}`); // Adjust the userID accordingly
-        const data = await response.json();
-        setRecommendations(data);
+        if (typeof window !== 'undefined') {
+          let language = localStorage.getItem('selectedLanguage') || 'en';
+          setSelectedLanguage(language);
+          const userID = localStorage.getItem('userID');
+          const response = await fetch(`http://localhost:5000/recommendations?userID=${userID}&language=${language}`); // Adjust the userID accordingly
+          const data = await response.json();
+          setRecommendations(data);
+        }
       } catch (error) {
         console.error('Error fetching recommendations:', error);
       }

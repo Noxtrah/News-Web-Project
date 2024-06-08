@@ -219,9 +219,11 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
 
   useEffect(() => {
     if (isClient && !isFirstCategoryHandled.current) {
-      const initialCategory = localStorage.getItem('selectedCategory') || handleFirstCategory();
-      setSelectedCategory(initialCategory);
-      isFirstCategoryHandled.current = true; // Set to true after handling the initial category
+      if (typeof window !== 'undefined') {
+        const initialCategory = localStorage.getItem('selectedCategory') || handleFirstCategory();
+        setSelectedCategory(initialCategory);
+        isFirstCategoryHandled.current = true; // Set to true after handling the initial category
+      }
     }
   }, [isClient, i18n.language]);
 
@@ -229,16 +231,18 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
     if (isClient) {
       const fetchData = async () => {
         try {
-          const language = localStorage.getItem('selectedLanguage') || i18n.language;
-          const response = await fetchNewsData(selectedCategory, language);
-          if (!response.ok) {
-            throw new Error('Failed to fetch data');
-          }
-          const data = await response.json();
-          data.forEach((item: NewsItem) => {
-            item.Insertion_hour = new Date(item.Insertion_hour);
-          });
-          setNewsData(data);
+          if (typeof window !== 'undefined') {
+            const language = localStorage.getItem('selectedLanguage') || i18n.language;
+            const response = await fetchNewsData(selectedCategory, language);
+            if (!response.ok) {
+              throw new Error('Failed to fetch data');
+            }
+            const data = await response.json();
+            data.forEach((item: NewsItem) => {
+              item.Insertion_hour = new Date(item.Insertion_hour);
+            });
+            setNewsData(data);
+        }
         } catch (error) {
           console.error('Error fetching news data:', error);
         }
@@ -264,17 +268,18 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   };
 
   const handleFirstCategory = () => {
-    const checkLanguage = localStorage.getItem('selectedLanguage') || "";
-    if (checkLanguage === 'en') {
-      console.log('en ALL');
-      return 'ALL';
-    } else if (checkLanguage === 'tr') {
-      console.log('tr HEPSİ');
-      return 'HEPSİ';
-    } else {
-      console.log('0 ALL');
-      return 'ALL'; // Default to 'ALL' if language is not recognized
-    }
+      const checkLanguage = localStorage.getItem('selectedLanguage') || "";
+      if (checkLanguage === 'en') {
+        console.log('en ALL');
+        return 'ALL';
+      } else if (checkLanguage === 'tr') {
+        console.log('tr HEPSİ');
+        return 'HEPSİ';
+      } else {
+        console.log('0 ALL');
+        return 'ALL'; // Default to 'ALL' if language is not recognized
+      }
+      //here
   };
 
   return (

@@ -1,6 +1,5 @@
 // pages/newsDetailPage.tsx
 "use client"
-import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { NewsItem } from '../types';
 import Header from '../components/Header';
@@ -10,6 +9,7 @@ import router from 'next/router';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 
 const NewsDetailPage: React.FC = () => {
@@ -23,21 +23,26 @@ const NewsDetailPage: React.FC = () => {
   const [liked, setLiked] = useState<boolean>(false);
   const [disliked, setDisliked] = useState<boolean>(false);
   const { t } = useTranslation();
-  const selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  let selectedLanguage = "en";
+  if (typeof window !== 'undefined') {
+    selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  }
 
   const handleLikeClick = async () => {
     try {
-      const userId = localStorage.getItem('userID');
-      const response = await fetch(`http://localhost:5000/news/like?id=${newsItem?.NewsID}&userID=${userId}`, {
-        method: 'POST',
-      });
-      if (response.ok) {
-        const newLikeCount = likeCount + 1;
-        setLikeCount(newLikeCount);
-        setLiked(true);
-        updateUrl({ likeCount: newLikeCount, dislikeCount });
-      } else {
-        console.error('Failed to like news item.');
+      if (typeof window !== 'undefined') {
+        const userId = localStorage.getItem('userID');
+        const response = await fetch(`http://localhost:5000/news/like?id=${newsItem?.NewsID}&userID=${userId}`, {
+          method: 'POST',
+        });
+        if (response.ok) {
+          const newLikeCount = likeCount + 1;
+          setLikeCount(newLikeCount);
+          setLiked(true);
+          updateUrl({ likeCount: newLikeCount, dislikeCount });
+        } else {
+          console.error('Failed to like news item.');
+        }
       }
     } catch (error) {
       console.error('Error occurred while liking news item:', error);
@@ -46,17 +51,19 @@ const NewsDetailPage: React.FC = () => {
 
   const handleDislikeClick = async () => {
     try {
-      const userId = localStorage.getItem('userID');
-      const response = await fetch(`http://localhost:5000/news/dislike?id=${newsItem?.NewsID}&userID=${userId}`, {
-        method: 'POST',
-      });
-      if (response.ok) {
-        const newDislikeCount = dislikeCount + 1;
-        setDislikeCount(newDislikeCount);
-        setDisliked(true)
-        updateUrl({ likeCount, dislikeCount: newDislikeCount });
-      } else {
-        console.error('Failed to dislike news item.');
+      if (typeof window !== 'undefined') {
+        const userId = localStorage.getItem('userID');
+        const response = await fetch(`http://localhost:5000/news/dislike?id=${newsItem?.NewsID}&userID=${userId}`, {
+          method: 'POST',
+        });
+        if (response.ok) {
+          const newDislikeCount = dislikeCount + 1;
+          setDislikeCount(newDislikeCount);
+          setDisliked(true)
+          updateUrl({ likeCount, dislikeCount: newDislikeCount });
+        } else {
+          console.error('Failed to dislike news item.');
+        }
       }
     } catch (error) {
       console.error('Error occurred while disliking news item:', error);
@@ -72,12 +79,14 @@ const NewsDetailPage: React.FC = () => {
 
   useEffect(() => {
     // const urlParams = new URLSearchParams(window.location.search);
-    const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
-    console.log("Item === " , userProfilePictureParam);
-    if (userProfilePictureParam) {
-      console.log("Triggered");
+    if (typeof window !== 'undefined') {
+      const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
+      console.log("Item === " , userProfilePictureParam);
+      if (userProfilePictureParam) {
+        console.log("Triggered");
 
-      setUserProfilePicture(userProfilePictureParam);
+        setUserProfilePicture(userProfilePictureParam);
+      }
     }
   }, []);
 

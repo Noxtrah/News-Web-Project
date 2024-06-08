@@ -153,9 +153,11 @@ const Navbar: React.FC<NavbarProps> = ({ className, onCategorySelect, firstCateg
   const [t, setTranslations] = useState(translations[lang]);
 
   useEffect(() => {
-    const selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
-    setLang(selectedLanguage);
-    setTranslations(translations[selectedLanguage]);
+    if (typeof window !== 'undefined') {
+      const selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+      setLang(selectedLanguage);
+      setTranslations(translations[selectedLanguage]);
+    }
   }, []);
 
   const handleCategorySelect = (category: string) => {
