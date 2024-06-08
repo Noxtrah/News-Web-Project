@@ -199,7 +199,7 @@ interface NewsItem {
   Resource: string;
   Resource_icon: string;
   Image: string;
-  Insertion_hour: string;
+  Insertion_hour: Date;
   Category: string;
   Like_count: string;
   Dislike_count: string;
@@ -235,6 +235,9 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
             throw new Error('Failed to fetch data');
           }
           const data = await response.json();
+          data.forEach((item: NewsItem) => {
+            item.Insertion_hour = new Date(item.Insertion_hour);
+          });
           setNewsData(data);
         } catch (error) {
           console.error('Error fetching news data:', error);

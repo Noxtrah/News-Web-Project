@@ -1,12 +1,12 @@
 export interface NewsItem {
   Title: string;
   Description: string;
-  Insertion_hour: Date; // Alternatively, you can use Date type if you plan to convert this to a Date object
+  Insertion_hour: Date;
   Resource: string;
   Resource_icon: string;
   Category: string;
-  Like_count: string; // Consider changing to number if these are numerical values
-  Dislike_count: string; // Consider changing to number if these are numerical values
+  Like_count: string;
+  Dislike_count: string;
   NewsID: number;
   Image: string;
 }
