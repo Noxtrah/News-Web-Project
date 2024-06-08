@@ -9,6 +9,7 @@ import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 import router from 'next/router';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import { Suspense } from 'react';
 
 
 const NewsDetailPage: React.FC = () => {
@@ -116,6 +117,7 @@ const NewsDetailPage: React.FC = () => {
   }
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className='bg-gray-100 min-h-screen'>
       <div className='p-2 md:px-8 lg:px-16 xl:px-32'>
         <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" userProfilePicture={userProfilePicture} />
@@ -154,6 +156,7 @@ const NewsDetailPage: React.FC = () => {
         <RecommendationCard />
       </div>
     </div>
+    </Suspense>
   );
 };
 export default NewsDetailPage;

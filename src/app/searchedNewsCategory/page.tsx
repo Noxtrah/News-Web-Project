@@ -5,6 +5,11 @@ import Navbar from '../components/Navbar';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import dynamic from 'next/dynamic';
+
+const DynamicSearchedNewsCategoryPage = dynamic(() => import('../searchedNewsCategory/page'), {
+  ssr: false, // This disables server-side rendering for this component
+});
 
 interface NewsArticle {
   id: number;

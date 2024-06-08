@@ -57,9 +57,11 @@ const Index: React.FC = () => {
 
   useEffect(() => {
     // const urlParams = new URLSearchParams(window.location.search);
-    const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
-    if (userProfilePictureParam) {
-      setUserProfilePictureLocal(userProfilePictureParam);
+    if (typeof window !== 'undefined') {
+      const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
+      if (userProfilePictureParam) {
+        setUserProfilePictureLocal(userProfilePictureParam);
+    }
       // Dispatch action to set user profile picture in Redux store
       // dispatch(setUserProfilePicture(userProfilePictureParam)); // This should return an action object
     }
