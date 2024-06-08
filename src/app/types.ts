@@ -30,3 +30,12 @@ export type Translations = {
     real_estate: string;
   };
 };
+
+export type User = {
+  firstName: string;
+  lastName: string;
+  userEmail: string;
+  password: string;
+  country: string;
+  city: string;
+};
