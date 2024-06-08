@@ -264,7 +264,7 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   };
 
   const handleFirstCategory = () => {
-    const checkLanguage = localStorage.getItem('selectedLanguage');
+    const checkLanguage = localStorage.getItem('selectedLanguage') || "";
     if (checkLanguage === 'en') {
       console.log('en ALL');
       return 'ALL';
