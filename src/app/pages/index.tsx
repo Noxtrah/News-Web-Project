@@ -26,11 +26,8 @@
 
 "use client"
 
-import { setUserProfilePicture } from '../redux/actions';
-import { useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
-import Navbar from '../components/Navbar';
 import NewsPage from '../components/NewsPage';
 import { useTranslation } from 'react-i18next';
 
