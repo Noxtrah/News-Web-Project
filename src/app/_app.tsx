@@ -1,14 +1,13 @@
-// _app.tsx
-import { Provider } from 'react-redux';
-import store from './redux/store'; // Adjust the path as per your project structure
-import '../styles/globals.css'; // Example import for global styles
-import { AppProps } from 'next/app'; // Import the AppProps type from Next.js
+// src/app/pages/_app.tsx
+import React from 'react';
+import { AppProps } from 'next/app';
+import Layout from './layout'; // Adjust the path as needed
 
-function MyApp({ Component, pageProps }: AppProps) { // Explicitly type the Component prop
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
+    <Layout>
       <Component {...pageProps} />
-    </Provider>
+    </Layout>
   );
 }
 

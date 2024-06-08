@@ -1,18 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { NewsItem } from '../types';
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 const RecommendationCard = () => {
   const [scrollInterval, setScrollInterval] = useState<NodeJS.Timeout | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [recommendations, setRecommendations] = useState<NewsItem[] | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        let language = localStorage.getItem('selectedLanguage') || 'en';
+        setSelectedLanguage(language);
         const userID = localStorage.getItem('userID');
-        const response = await fetch(`http://localhost:5000/recommendations?userID=${userID}`); // Adjust the userID accordingly
+        const response = await fetch(`http://localhost:5000/recommendations?userID=${userID}&language=${language}`); // Adjust the userID accordingly
         const data = await response.json();
         setRecommendations(data);
       } catch (error) {
@@ -49,7 +54,7 @@ const RecommendationCard = () => {
 
 return (
   <div className="max-w-full mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-4 z-10"> {/* Set z-index to 10 */}
-    <h3 className="text-xl font-bold p-3.5 bg-gray-800 text-white">You may also like</h3>
+    <h3 className="text-xl font-bold p-3.5 bg-gray-800 text-white">{selectedLanguage === 'tr' ? 'Bunları da beğenebilirsiniz' : 'You may also like'}</h3>
     {recommendations !== null && (
       <div id="recommendations-container" className={`flex overflow-x-hidden px-10 relative`}> {/* Add relative positioning */}
         {recommendations.map((recommendation) => (

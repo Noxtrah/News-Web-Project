@@ -10,3 +10,23 @@ export interface NewsItem {
   NewsID: number;
   Image: string;
 }
+
+export type Translations = {
+  [key: string]: {
+    ALL: string;
+    finance: string;
+    weather: string;
+    technology: string;
+    sports: string;
+    health: string;
+    world: string;
+    politics: string;
+    environment: string;
+    entertainment: string;
+    food: string;
+    travel: string;
+    science: string;
+    play: string;
+    real_estate: string;
+  };
+};

@@ -32,8 +32,10 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import NewsPage from '../components/NewsPage';
+import { useTranslation } from 'react-i18next';
 
 const Index: React.FC = () => {
+  const { t } = useTranslation();
   const [userProfilePicture, setUserProfilePictureLocal] = useState<string | undefined>(undefined);
   const [sub, setSub] = useState<string | null>(null);
   // const dispatch = useDispatch();
@@ -75,7 +77,7 @@ const Index: React.FC = () => {
         {/* News Section */}
         <section className="p-4 bg-white rounded-lg shadow-md">
           {/* NewsPage Component */}
-          <NewsPage category={'RANDOM'} />
+          <NewsPage category={t('ALL')} />
         </section>
       </div>
     </div>

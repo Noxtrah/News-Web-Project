@@ -6,8 +6,9 @@ import Image from 'next/image';
 import { SetStateAction, useEffect, useState } from 'react';
 import LoginPopup from './LoginPopup';
 import NewestNews from '../components/NewestNews';
-
-
+import LanguageSelection from './LanguageSelection';
+import { AiFillSetting } from 'react-icons/ai';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   className?: string;
@@ -16,7 +17,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ className, userProfilePicture }) => {
   // Remove userProfilePicture state variable declaration
-
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -59,6 +60,12 @@ const Header: React.FC<HeaderProps> = ({ className, userProfilePicture }) => {
     window.open(`/searchedNewsCategory?searchQuery=${encodedQuery}`, '_blank');
   };
 
+  const [showLanguageSelection, setShowLanguageSelection] = useState(false);
+
+  const toggleLanguageSelection = () => {
+    setShowLanguageSelection(!showLanguageSelection);
+  };
+
 
   return (
     <header className={`bg-white text-black p-4 flex items-center ${className}`}>
@@ -71,12 +78,12 @@ const Header: React.FC<HeaderProps> = ({ className, userProfilePicture }) => {
       <div className="flex flex-grow mx-2 ml-full sm:mr-2 md:mr-4 lg:mr-4 xl:mr-4">
         <input
           type="text"
-          placeholder="Search news..."
+          placeholder={t('searchBarPlaceholder')}
           className="w-full max-w-10xl px-2 py-1 border border-gray-600 rounded-lg"
           value={searchQuery}
           onChange={handleSearchInputChange}
         />
-         <button onClick={handleSearch} className="ml-2 px-4 py-1 bg-blue-500 text-white rounded-lg">Search</button>
+         <button onClick={handleSearch} className="ml-2 px-4 py-1 bg-blue-500 text-white rounded-lg">{t('searchButton')}</button>
       </div>
 
       {/* Icons */}
@@ -100,8 +107,13 @@ const Header: React.FC<HeaderProps> = ({ className, userProfilePicture }) => {
           {isDropdownVisible && <LoginPopup onClose={function (): void {} } />}
         </div>
         {/* Settings Icon */}
-        <div className="bg-white rounded-3xl">
+        <div className="relative" onClick={toggleLanguageSelection}>
           <IoIosSettings className="w-6 h-6 text-gray-500 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-8 lg:h-8 xl:w-8 xl:h-8" />
+          {showLanguageSelection && (
+            <div className="absolute top-full right-0 mt-2 z-50">
+              <LanguageSelection onClose={toggleLanguageSelection} />
+            </div>
+          )}
         </div>
         {/* Notification Bell */}
         <div className="bg-white rounded-3xl relative" onClick={toggleNewsVisibility}>

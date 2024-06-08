@@ -1,10 +1,10 @@
 // page.tsx
 
 import React from 'react';
-import Dashboard from './pages';
+import Index from './pages';
 
 const HomePage: React.FC = () => {
-  return <Dashboard />;
+  return <Index />;
 };
 
 export default HomePage;

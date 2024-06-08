@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 interface NewsArticle {
   id: number;
@@ -26,6 +27,8 @@ const SearchedNewsCategoryPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [userProfilePicture, setUserProfilePictureLocal] = useState<string | undefined>(undefined);
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     // const urlParams = new URLSearchParams(window.location.search);
@@ -104,10 +107,10 @@ const SearchedNewsCategoryPage: React.FC = () => {
     <div className="bg-gray-100 min-h-screen">
       <div className='p-2 md:px-8 lg:px-16 xl:px-32'>
       <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" userProfilePicture={userProfilePicture} />
-        <Navbar onCategorySelect={(category) => handleCategoryChange(category)} className="px-12 sm:px-12 md:px-12 lg:px-18 xl:px-40" firstCategory={query.toUpperCase() || 'RANDOM'} />
+        <Navbar onCategorySelect={(category) => handleCategoryChange(category)} className="px-12 sm:px-12 md:px-12 lg:px-18 xl:px-40" firstCategory={query.toUpperCase() || t('NONE')} />
         <section className="p-4 bg-white rounded-lg shadow-md">
           <main className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4 text-black underline">Search Results for: {query}</h1>
+            <h1 className="text-2xl font-bold mb-4 text-black underline">Search Results for: {query.toUpperCase() || t('NONE')}</h1>
             {loading ? (
               <p>Loading...</p>
             ) : (
