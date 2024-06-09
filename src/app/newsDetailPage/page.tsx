@@ -21,8 +21,8 @@ const NewsDetailPage: React.FC = () => {
       <div className='bg-gray-100 min-h-screen'>
         <div className='p-2 md:px-8 lg:px-16 xl:px-32'>
           <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" userProfilePicture={userProfilePicture} />
-          <NewsDetailContent /> {/* Use the new component here */}
-          <RecommendationCard />
+          <NewsDetailContent />
+          {/* <RecommendationCard /> */}
         </div>
       </div>
     </Suspense>

@@ -7,6 +7,7 @@ import router from 'next/router';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'next/navigation';
+import RecommendationCard from './RecommendationCard';
 
 const NewsDetailContent: React.FC = () => {
   const searchParams = useSearchParams(); // useSearchParams inside a React component
@@ -108,8 +109,7 @@ const NewsDetailContent: React.FC = () => {
   }
 
   return (
-    <div className='bg-gray-100 min-h-screen'>
-      <div className='p-2 md:px-8 lg:px-16 xl:px-32'>
+    <div>
         <hr className="border-gray-300" />
         <div className="max-w-8xl mx-auto pb-px p-6 bg-white rounded-lg shadow-lg">
           <div className="md:flex">
@@ -142,7 +142,7 @@ const NewsDetailContent: React.FC = () => {
           </div>
           <p className="text-lg text-gray-700 py-4">{newsItem.Description}</p>
         </div>
-      </div>
+        <RecommendationCard />
     </div>
   );
 };
