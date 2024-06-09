@@ -17,7 +17,7 @@ const NewestNews: React.FC = () => {
 
   useEffect(() => {
     // Replace 'ws://localhost:5000' with your actual WebSocket server URL
-    const socket = new WebSocket('ws://https://msn-api-web-project.onrender.com');
+    const socket = new WebSocket('ws://msn-api-web-project.onrender.com');
 
     socket.onopen = () => {
       console.log('Connected to the WebSocket server');
