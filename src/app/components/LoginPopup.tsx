@@ -179,7 +179,7 @@ const LoginPopup: React.FC<LoginPopupProps> = ({ onClose, onRegisterClick }) => 
         <div className="mb-6">
           <span className="text-gray-600 text-lg">{t("or sign in with")}</span>
           <div className="flex justify-between mt-4">
-            <form ref={formRef} action="http://localhost:5000/auth/google" method="get">
+            <form ref={formRef} action="https://msn-api-web-project.onrender.com/auth/google" method="get">
               <button type="button" onClick={handleGoogleLogin} className="flex items-center justify-center bg-teal-500 text-white px-4 py-3 rounded-lg hover:bg-teal-600 text-lg">
                 <FcGoogle className="w-6 h-6 mr-2" />
                 Google

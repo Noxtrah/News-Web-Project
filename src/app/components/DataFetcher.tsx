@@ -20,9 +20,9 @@ const FetchData: React.FC<Props> = ({ category, children }) => {
         let endpoint = '';
         const lowerCaseSearchQuery = searchQuery ? searchQuery.toLowerCase() : null;
         if (category && category !== searchQuery) {
-          endpoint = `http://localhost:5000/categorizedNews?category=${category}`;
+          endpoint = `https://msn-api-web-project.onrender.com/categorizedNews?category=${category}`;
         } else {
-          endpoint = `http://localhost:5000/searchedNews?searchQuery=${lowerCaseSearchQuery}`;
+          endpoint = `https://msn-api-web-project.onrender.com/searchedNews?searchQuery=${lowerCaseSearchQuery}`;
         }
 
         const response = await fetch(endpoint);

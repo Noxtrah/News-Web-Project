@@ -18,7 +18,7 @@ const RecommendationCard = () => {
           let language = localStorage.getItem('selectedLanguage') || 'en';
           setSelectedLanguage(language);
           const userID = localStorage.getItem('userID');
-          const response = await fetch(`http://localhost:5000/recommendations?userID=${userID}&language=${language}`); // Adjust the userID accordingly
+          const response = await fetch(`https://msn-api-web-project.onrender.com/recommendations?userID=${userID}&language=${language}`); // Adjust the userID accordingly
           const data = await response.json();
           setRecommendations(data);
         }

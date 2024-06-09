@@ -27,7 +27,7 @@ const NewsDetailContent: React.FC = () => {
     try {
       if (typeof window !== 'undefined') {
         const userId = localStorage.getItem('userID');
-        const response = await fetch(`http://localhost:5000/news/like?id=${newsItem?.NewsID}&userID=${userId}`, {
+        const response = await fetch(`https://msn-api-web-project.onrender.com/news/like?id=${newsItem?.NewsID}&userID=${userId}`, {
           method: 'POST',
         });
         if (response.ok) {
@@ -48,7 +48,7 @@ const NewsDetailContent: React.FC = () => {
     try {
       if (typeof window !== 'undefined') {
         const userId = localStorage.getItem('userID');
-        const response = await fetch(`http://localhost:5000/news/dislike?id=${newsItem?.NewsID}&userID=${userId}`, {
+        const response = await fetch(`https://msn-api-web-project.onrender.com/news/dislike?id=${newsItem?.NewsID}&userID=${userId}`, {
           method: 'POST',
         });
         if (response.ok) {

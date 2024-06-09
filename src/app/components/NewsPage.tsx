@@ -65,8 +65,8 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   const fetchNewsData = async (category: string, language: string) => {
     return await fetch(
       category === 'ALL' || category === 'HEPSİ'
-        ? `http://localhost:5000/news?language=${language}`
-        : `http://localhost:5000/categorizedNews?category=${category}&language=${language}`
+        ? `https://msn-api-web-project.onrender.com/news?language=${language}`
+        : `https://msn-api-web-project.onrender.com/categorizedNews?category=${category}&language=${language}`
     );
   };
 
