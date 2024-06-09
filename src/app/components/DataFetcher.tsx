@@ -1,13 +1,15 @@
 // FetchData.tsx
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 interface Props {
-  query: string | null;
   category: string;
-  children: (data: any, loading: boolean) => React.ReactNode;
+  children: (data: any, loading: boolean, searchQuery: string | null) => React.ReactNode;
 }
 
-const FetchData: React.FC<Props> = ({ query, category, children }) => {
+const FetchData: React.FC<Props> = ({ category, children }) => {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('searchQuery');
   const [newsData, setNewsData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,16 +18,11 @@ const FetchData: React.FC<Props> = ({ query, category, children }) => {
       setLoading(true);
       try {
         let endpoint = '';
-        // if (query && query !== '') {
-        //   endpoint = `http://localhost:5000/searchedNews?searchQuery=${query}`;
-        // } else {
-        //   endpoint = `http://localhost:5000/categorizedNews?category=${category}`;
-        // }
-        if (category && category !== query){
-            endpoint = `http://localhost:5000/categorizedNews?category=${category}`;
-        }
-        else {
-            endpoint = `http://localhost:5000/searchedNews?searchQuery=${query}`;
+        const lowerCaseSearchQuery = searchQuery ? searchQuery.toLowerCase() : null;
+        if (category && category !== searchQuery) {
+          endpoint = `http://localhost:5000/categorizedNews?category=${category}`;
+        } else {
+          endpoint = `http://localhost:5000/searchedNews?searchQuery=${lowerCaseSearchQuery}`;
         }
 
         const response = await fetch(endpoint);
@@ -42,11 +39,9 @@ const FetchData: React.FC<Props> = ({ query, category, children }) => {
     };
 
     fetchData();
-  }, [query, category]);
+  }, [searchQuery, category]);
 
-  console.log('Fetched news data:', newsData); // Log the fetched data
-
-  return <>{children(newsData, loading)}</>;
+  return <>{children(newsData, loading, searchQuery)}</>;
 };
 
 export default FetchData;

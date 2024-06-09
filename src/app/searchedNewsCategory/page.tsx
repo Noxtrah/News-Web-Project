@@ -157,27 +157,21 @@
 
 "use client"
 
-// SearchedNewsCategoryPage.tsx
-
 import React, { Suspense, useState } from 'react';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import FetchData from '../components/DataFetcher';
-import { useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { NewsItem } from '../types';
 import Image from 'next/image';
 
 const SearchedNewsCategoryPage: React.FC = () => {
-  const searchParams = useSearchParams();
-  const searchQuery = searchParams.get('searchQuery');
   const [selectedCategory, setSelectedCategory] = useState('');
   const { t } = useTranslation();
 
   const handleCategoryChange = (category: string) => {
     console.log('Selected category:', category);
-    console.log('Search query:', searchQuery);
-    if (category.toLowerCase() === searchQuery?.toLowerCase()) {
+    if (category.toLowerCase() === selectedCategory?.toLowerCase()) {
       console.log('Same category, fetching articles again');
       setSelectedCategory('');
     } else {
@@ -191,13 +185,13 @@ const SearchedNewsCategoryPage: React.FC = () => {
       <div className="bg-gray-100 min-h-screen">
         <div className="p-2 md:px-8 lg:px-16 xl:px-32">
           <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" />
-          <FetchData query={searchQuery} category={selectedCategory}>
-            {(newsData: NewsItem[], loading: boolean) => (
+          <FetchData category={selectedCategory}>
+            {(newsData: NewsItem[], loading: boolean, searchQuery: string | null) => (
               <>
                 <Navbar
                   onCategorySelect={(category) => handleCategoryChange(category)}
                   className="px-12 sm:px-12 md:px-12 lg:px-18 xl:px-40"
-                  firstCategory={searchQuery ? searchQuery.toUpperCase() : t('NONE')}
+                  firstCategory={searchQuery ? searchQuery.toLowerCase() : t('NONE')}
                 />
                 <section className="p-4 bg-white rounded-lg shadow-md">
                   <main className="container mx-auto p-4">
@@ -218,14 +212,10 @@ const SearchedNewsCategoryPage: React.FC = () => {
                               <p>Source: {article.Resource}</p>
                               <Image src={article.Resource_icon} alt={article.Resource} width={24} height={24} className="ml-2" />
                             </div>
-                            <p className="text-gray-500 text-sm mb-2">Published {article.Insertion_hour.toLocaleString()} hours ago</p>
                             <div className="flex items-center mb-2">
                               <p className="text-green-500 mr-4">Likes: {article.Like_count}</p>
                               <p className="text-red-500">Dislikes: {article.Dislike_count}</p>
                             </div>
-                            {/* <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                              Read more
-                            </a> */}
                           </div>
                         ))}
                       </div>
