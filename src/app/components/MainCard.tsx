@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link'; // Import Link from next/link
 import Image from 'next/image';
 import { NewsItem } from '../types';
@@ -14,6 +14,7 @@ const MainCard: React.FC<MainCardProps> = ({ newsData }) => {
     &Insertion_hour=${encodeURIComponent(insertionHourString)}&Category=${encodeURIComponent(item.Category)}&Like_count=${item.Like_count}&Dislike_count=${item.Dislike_count}`;
   };
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {newsData.map((item, index) => (
         <Link
@@ -33,6 +34,7 @@ const MainCard: React.FC<MainCardProps> = ({ newsData }) => {
         </Link>
       ))}
     </div>
+    </Suspense>
   );
 };
 

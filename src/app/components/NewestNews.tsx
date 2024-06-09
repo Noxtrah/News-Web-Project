@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { NewsItem } from '../types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -54,6 +54,7 @@ const NewestNews: React.FC = () => {
   };
 
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="max-w-md mx-auto bg-white shadow-2xl rounded-lg overflow-hidden relative z-20">
       <h3 className="text-xl font-bold p-4 bg-gray-800 text-white">{t("Latest News")}</h3>
       <ul className="divide-y divide-gray-200">
@@ -81,7 +82,8 @@ const NewestNews: React.FC = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </div>,
+    </Suspense>
   );
 };
 
