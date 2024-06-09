@@ -95,7 +95,7 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   };
 
   return (
-    <div>
+    <div suppressHydrationWarning>
       <Navbar onCategorySelect={handleCategoryChange} className='px-12 sm:px-12 md:px-12 lg:px-18 xl:px-40' firstCategory={handleFirstCategory()} />
       <MainCard newsData={newsData} />
     </div>
