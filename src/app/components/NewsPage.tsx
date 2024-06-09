@@ -14,6 +14,8 @@ interface NewsItem {
   Like_count: string;
   Dislike_count: string;
   NewsID: number;
+  isLiked: number;
+  isDisliked: number;
 }
 
 const NewsPage: React.FC<{ category: string }> = ({ category }) => {
@@ -22,6 +24,10 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(t('ALL'));
   const [isClient, setIsClient] = useState(false);
   const isFirstCategoryHandled = useRef(false); // useRef to track if handleFirstCategory has been called
+  let userId: string | null;
+  if (typeof window !== 'undefined') {
+    userId = localStorage.getItem('userID');
+  }
 
   useEffect(() => {
     setIsClient(true); // Set isClient to true when the component is mounted on the client side
@@ -65,7 +71,7 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   const fetchNewsData = async (category: string, language: string) => {
     return await fetch(
       category === 'ALL' || category === 'HEPSİ'
-        ? `https://msn-api-web-project.onrender.com/news?language=${language}`
+        ? `https://msn-api-web-project.onrender.com/news?language=${language}&userID=${userId}`
         : `https://msn-api-web-project.onrender.com/categorizedNews?category=${category}&language=${language}`
     );
   };
@@ -95,7 +101,7 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   };
 
   return (
-    <div suppressHydrationWarning>
+    <div suppressHydrationWarning={true}>
       <Navbar onCategorySelect={handleCategoryChange} className='px-12 sm:px-12 md:px-12 lg:px-18 xl:px-40' firstCategory={handleFirstCategory()} />
       <MainCard newsData={newsData} />
     </div>

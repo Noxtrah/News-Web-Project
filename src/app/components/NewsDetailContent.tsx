@@ -84,8 +84,11 @@ const NewsDetailContent: React.FC = () => {
     const category = searchParams.get('Category');
     const likeCount = searchParams.get('Like_count');
     const dislikeCount = searchParams.get('Dislike_count');
+    const isLiked = searchParams.get('Is_liked');
+    const isDisliked = searchParams.get('Is_disliked');
 
-    if (newsID && title && description && resource && resourceIcon && image && insertionHour && category && likeCount && dislikeCount) {
+
+    if (newsID && title && description && resource && resourceIcon && image && insertionHour && category && likeCount && dislikeCount && isLiked && isDisliked) {
       const item: NewsItem = {
         NewsID: Number(newsID),
         Title: title,
@@ -97,6 +100,8 @@ const NewsDetailContent: React.FC = () => {
         Category: category,
         Like_count: likeCount,
         Dislike_count: dislikeCount,
+        isLiked: parseInt(isLiked),
+        isDisliked: parseInt(isDisliked),
       };
       setNewsItem(item);
       setLikeCount(parseInt(likeCount));
@@ -127,13 +132,13 @@ const NewsDetailContent: React.FC = () => {
               <div className='flex gap-8'>
                 <div className="flex items-center">
                   <button onClick={handleLikeClick}>
-                    <AiFillLike size={24} className={`mr-2 ${liked ? 'text-green-600' : 'text-gray-600'}`} />
+                  <AiFillLike size={24} className={`mr-2 ${newsItem.isLiked === 1 || liked ? 'text-green-600' : 'text-gray-600'}`} />
                   </button>
                   <span className='text-gray-600'>{likeCount}</span>
                 </div>
                 <div className="flex items-center">
                   <button onClick={handleDislikeClick}>
-                    <AiFillDislike size={24} className={`mr-2 ${disliked ? 'text-red-600' : 'text-gray-600'}`} />
+                    <AiFillDislike size={24} className={`mr-2 ${newsItem.isDisliked === 1 || disliked ? 'text-red-600' : 'text-gray-600'}`} />
                   </button>
                   <span className='text-gray-600'>{dislikeCount}</span>
                 </div>

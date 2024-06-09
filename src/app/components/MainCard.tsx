@@ -8,10 +8,18 @@ interface MainCardProps {
 }
 
 const MainCard: React.FC<MainCardProps> = ({ newsData }) => {
+  console.log(newsData);
   const createQueryString = (item: NewsItem) => {
+    console.log("Item:", item);
+    console.log("Item isLiked:", item.isLiked);
+    console.log("Item isDisliked:", item.isDisliked);
     const insertionHourString = new Date(item.Insertion_hour).toISOString();
-    return `?NewsID=${item.NewsID}&Title=${encodeURIComponent(item.Title)}&Description=${encodeURIComponent(item.Description)}&Resource=${encodeURIComponent(item.Resource)}&Resource_icon=${encodeURIComponent(item.Resource_icon)}&Image=${encodeURIComponent(item.Image)}
-    &Insertion_hour=${encodeURIComponent(insertionHourString)}&Category=${encodeURIComponent(item.Category)}&Like_count=${item.Like_count}&Dislike_count=${item.Dislike_count}`;
+    const queryString = `?NewsID=${item.NewsID}&Title=${encodeURIComponent(item.Title)}&Description=${encodeURIComponent(item.Description)}
+    &Resource=${encodeURIComponent(item.Resource)}&Resource_icon=${encodeURIComponent(item.Resource_icon)}&Image=${encodeURIComponent(item.Image)}
+    &Insertion_hour=${encodeURIComponent(insertionHourString)}&Category=${encodeURIComponent(item.Category)}&Like_count=${item.Like_count}&Dislike_count=${item.Dislike_count}
+    &Is_liked=${item.isLiked}&Is_disliked=${item.isDisliked}`;
+    console.log("Query String:", queryString); // Log the query string
+    return queryString;
   };
   return (
     <Suspense fallback={<div>Loading...</div>}>

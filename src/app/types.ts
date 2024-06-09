@@ -9,6 +9,8 @@ export interface NewsItem {
   Dislike_count: string;
   NewsID: number;
   Image: string;
+  isLiked: number;
+  isDisliked: number;
 }
 
 export type Translations = {
