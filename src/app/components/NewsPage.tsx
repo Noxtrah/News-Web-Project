@@ -72,7 +72,7 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
     return await fetch(
       category === 'ALL' || category === 'HEPSİ'
         ? `https://msn-api-web-project.onrender.com/news?language=${language}&userID=${userId}`
-        : `https://msn-api-web-project.onrender.com/categorizedNews?category=${category}&language=${language}`
+        : `https://msn-api-web-project.onrender.com/categorizedNews?category=${category}&language=${language}&userID=${userId}`
     );
   };
 
@@ -101,7 +101,7 @@ const NewsPage: React.FC<{ category: string }> = ({ category }) => {
   };
 
   return (
-    <div suppressHydrationWarning={true}>
+    <div>
       <Navbar onCategorySelect={handleCategoryChange} className='px-12 sm:px-12 md:px-12 lg:px-18 xl:px-40' firstCategory={handleFirstCategory()} />
       <MainCard newsData={newsData} />
     </div>

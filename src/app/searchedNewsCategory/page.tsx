@@ -157,13 +157,14 @@
 
 "use client"
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import FetchData from '../components/DataFetcher';
 import { useTranslation } from 'react-i18next';
 import { NewsItem } from '../types';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const SearchedNewsCategoryPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -180,11 +181,31 @@ const SearchedNewsCategoryPage: React.FC = () => {
     }
   };
 
+  const createQueryString = (item: NewsItem) => {
+    const insertionHourString = new Date(item.Insertion_hour).toISOString();
+    const queryString = `?NewsID=${item.NewsID}&Title=${encodeURIComponent(item.Title)}&Description=${encodeURIComponent(item.Description)}
+    &Resource=${encodeURIComponent(item.Resource)}&Resource_icon=${encodeURIComponent(item.Resource_icon)}&Image=${encodeURIComponent(item.Image)}
+    &Insertion_hour=${encodeURIComponent(insertionHourString)}&Category=${encodeURIComponent(item.Category)}&Like_count=${item.Like_count}&Dislike_count=${item.Dislike_count}
+    &Is_liked=${item.isLiked}&Is_disliked=${item.isDisliked}`;
+    return queryString;
+  };
+
+    const [userProfilePicture, setUserProfilePicture] = useState<string | undefined>(undefined);
+  
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        const userProfilePictureParam = localStorage.getItem('storedUserProfilePicture');
+        if (userProfilePictureParam) {
+          setUserProfilePicture(userProfilePictureParam);
+        }
+      }
+    }, []);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <div className="bg-gray-100 min-h-screen" suppressHydrationWarning={true}>
+      <div className="bg-gray-100 min-h-screen">
         <div className="p-2 md:px-8 lg:px-16 xl:px-32">
-          <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" />
+          <Header className="px-4 sm:px-8 md:px-12 lg:px-18 xl:px-40" userProfilePicture={userProfilePicture} />
           <FetchData category={selectedCategory}>
             {(newsData: NewsItem[], loading: boolean, searchQuery: string | null) => (
               <>
@@ -199,23 +220,28 @@ const SearchedNewsCategoryPage: React.FC = () => {
                       <p>Loading...</p>
                     ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {newsData.map((article: NewsItem) => (
+                        {newsData.map((article: NewsItem, index) => (
                           <div key={article.NewsID} className="bg-white rounded-lg shadow-md p-4 mb-4 transform transition-transform duration-500 hover:scale-105 hover:shadow-lg">
-                            <div className="flex items-center mb-2">
-                              <h2 className="text-xl font-bold text-black">{article.Title}</h2>
-                            </div>
-                            <div className="relative w-full h-48 mb-4">
-                              <Image src={article.Image} alt={article.Title} layout="fill" objectFit="cover" className="rounded-t-lg"/>
-                            </div>
-                            <p className="text-gray-700 mb-2">{article.Description}</p>
-                            <div className="flex items-center text-gray-500 text-sm mb-2">
-                              <p>Source: {article.Resource}</p>
-                              <Image src={article.Resource_icon} alt={article.Resource} width={24} height={24} className="ml-2" />
-                            </div>
-                            <div className="flex items-center mb-2">
-                              <p className="text-green-500 mr-4">Likes: {article.Like_count}</p>
-                              <p className="text-red-500">Dislikes: {article.Dislike_count}</p>
-                            </div>
+                            <Link
+                              key={index}
+                              href={`/newsDetailPage${createQueryString(article)}`}
+                            >
+                              <div className="flex items-center mb-2">
+                                <h2 className="text-xl font-bold text-black">{article.Title}</h2>
+                              </div>
+                              <div className="relative w-full h-48 mb-4">
+                                <Image src={article.Image} alt={article.Title} layout="fill" objectFit="cover" className="rounded-t-lg"/>
+                              </div>
+                              <p className="text-gray-700 mb-2">{article.Description}</p>
+                              <div className="flex items-center text-gray-500 text-sm mb-2">
+                                <p>Source: {article.Resource}</p>
+                                <Image src={article.Resource_icon} alt={article.Resource} width={24} height={24} className="ml-2" />
+                              </div>
+                              <div className="flex items-center mb-2">
+                                <p className="text-green-500 mr-4">Likes: {article.Like_count}</p>
+                                <p className="text-red-500">Dislikes: {article.Dislike_count}</p>
+                              </div>
+                            </Link>
                           </div>
                         ))}
                       </div>

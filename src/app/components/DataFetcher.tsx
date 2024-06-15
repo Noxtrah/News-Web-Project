@@ -19,12 +19,15 @@ const FetchData: React.FC<Props> = ({ category, children }) => {
       try {
         let endpoint = '';
         const lowerCaseSearchQuery = searchQuery ? searchQuery.toLowerCase() : null;
-        if (category && category !== searchQuery) {
-          endpoint = `https://msn-api-web-project.onrender.com/categorizedNews?category=${category}`;
-        } else {
-          endpoint = `https://msn-api-web-project.onrender.com/searchedNews?searchQuery=${lowerCaseSearchQuery}`;
-        }
+        if (typeof window !== 'undefined') {
+            let userID = localStorage.getItem('userID');
 
+            if (category && category !== searchQuery) {
+            endpoint = `https://msn-api-web-project.onrender.com/categorizedNews?category=${category}&userID=${userID}`;
+            } else {
+            endpoint = `https://msn-api-web-project.onrender.com/searchedNews?searchQuery=${lowerCaseSearchQuery}&userID=${userID}`;
+            }
+        }
         const response = await fetch(endpoint);
         if (!response.ok) {
           throw new Error('Failed to fetch data');

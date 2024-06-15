@@ -3,6 +3,7 @@ import { NewsItem } from '../types';
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 const RecommendationCard = () => {
   const [scrollInterval, setScrollInterval] = useState<NodeJS.Timeout | null>(null);
@@ -54,23 +55,37 @@ const RecommendationCard = () => {
     }
   };
 
+  const createQueryString = (item: NewsItem) => {
+    const insertionHourString = new Date(item.Insertion_hour).toISOString();
+    const queryString = `?NewsID=${item.NewsID}&Title=${encodeURIComponent(item.Title)}&Description=${encodeURIComponent(item.Description)}
+    &Resource=${encodeURIComponent(item.Resource)}&Resource_icon=${encodeURIComponent(item.Resource_icon)}&Image=${encodeURIComponent(item.Image)}
+    &Insertion_hour=${encodeURIComponent(insertionHourString)}&Category=${encodeURIComponent(item.Category)}&Like_count=${item.Like_count}&Dislike_count=${item.Dislike_count}
+    &Is_liked=${item.isLiked}&Is_disliked=${item.isDisliked}`;
+    return queryString;
+  };
+
 return (
   <div className="max-w-full mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative mt-4 z-10"> {/* Set z-index to 10 */}
     <h3 className="text-xl font-bold p-3.5 bg-gray-800 text-white">{selectedLanguage === 'tr' ? 'Bunları da beğenebilirsiniz' : 'You may also like'}</h3>
     {recommendations !== null && (
       <div id="recommendations-container" className={`flex overflow-x-hidden px-10 relative`}> {/* Add relative positioning */}
-        {recommendations.map((recommendation) => (
-          <div key={recommendation.NewsID} className="p-4 flex flex-col relative"> {/* Add relative positioning */}
-            <div className="w-36 h-36 xl:w-48 xl:h-26 mb-2 relative rounded-lg overflow-hidden">
-              <Image
-                src={recommendation.Image}
-                alt={recommendation.Title}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
-              />
-            </div>
-            <h4 className="text-lg font-semibold text-gray-800 w-36 xl:w-48">{recommendation.Title}</h4>
+        {recommendations.map((recommendation, index) => (
+          <div key={recommendation.NewsID} className="p-4 flex flex-col relative p-4 flex group transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl relative"> {/* Add relative positioning */}
+            <Link
+              key={index}
+              href={`/newsDetailPage${createQueryString(recommendation)}`}
+            >
+              <div className="w-36 h-36 xl:w-48 xl:h-26 mb-2 relative rounded-lg overflow-hidden">
+                <Image
+                  src={recommendation.Image}
+                  alt={recommendation.Title}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-lg"
+                />
+              </div>
+              <h4 className="text-lg font-semibold text-gray-800 w-36 xl:w-48">{recommendation.Title}</h4>
+            </Link>
           </div>
         ))}
       </div>
