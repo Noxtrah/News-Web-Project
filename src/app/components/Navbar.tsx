@@ -98,6 +98,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { Translations } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface NavbarProps {
   className?: string;
@@ -150,13 +151,15 @@ const Navbar: React.FC<NavbarProps> = ({ className, onCategorySelect, firstCateg
   const [isHovered, setIsHovered] = useState(false);
   const navbarRef = useRef<HTMLUListElement>(null);
   const [lang, setLang] = useState('en');
-  const [t, setTranslations] = useState(translations[lang]);
+  // const [t, setTranslations] = useState(translations[lang]);
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const selectedLanguage = localStorage.getItem('selectedLanguage') || 'en';
       setLang(selectedLanguage);
-      setTranslations(translations[selectedLanguage]);
+      // setTranslations(translations[selectedLanguage]);
     }
   }, []);
 
@@ -211,21 +214,21 @@ const Navbar: React.FC<NavbarProps> = ({ className, onCategorySelect, firstCateg
         <SlArrowRight />
       </div>
       <ul ref={navbarRef} className="flex overflow-x-hidden justify-between mt-1 cursor-pointer">
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === firstCategory ? 'font-bold' : ''}`} onClick={() => handleCategorySelect(firstCategory)}>{firstCategory}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'FINANCE' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('FINANCE')}>{t.finance}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'WEATHER' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('WEATHER')}>{t.weather}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'TECHNOLOGY' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('TECHNOLOGY')}>{t.technology}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'SPORTS' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('SPORTS')}>{t.sports}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'HEALTH' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('HEALTH')}>{t.health}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'WORLD' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('WORLD')}>{t.world}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'POLITICS' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('POLITICS')}>{t.politics}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'ENVIRONMENT' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('ENVIRONMENT')}>{t.environment}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'ENTERTAINMENT' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('ENTERTAINMENT')}>{t.entertainment}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'FOOD' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('FOOD')}>{t.food}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'TRAVEL' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('TRAVEL')}>{t.travel}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'SCIENCE' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('SCIENCE')}>{t.science}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'PLAY' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('PLAY')}>{t.play}</li>
-        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'REAL ESTATE' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('REAL ESTATE')}>{t.real_estate}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === firstCategory ? 'font-bold' : ''}`} onClick={() => handleCategorySelect(firstCategory)}>{t('ALL')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'FINANCE' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('FINANCE')}>{t('finance')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'WEATHER' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('WEATHER')}>{t('weather')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'TECHNOLOGY' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('TECHNOLOGY')}>{t('technology')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'SPORTS' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('SPORTS')}>{t('sports')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'HEALTH' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('HEALTH')}>{t('health')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'WORLD' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('WORLD')}>{t('world')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'POLITICS' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('POLITICS')}>{t('politics')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'ENVIRONMENT' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('ENVIRONMENT')}>{t('environment')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'ENTERTAINMENT' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('ENTERTAINMENT')}>{t('entertainment')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'FOOD' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('FOOD')}>{t('food')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'TRAVEL' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('TRAVEL')}>{t('travel')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'SCIENCE' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('SCIENCE')}>{t('science')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'PLAY' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('PLAY')}>{t('play')}</li>
+        <li className={`mr-4 whitespace-nowrap ${selectedCategory === 'REAL ESTATE' ? 'font-bold' : ''}`} onClick={() => handleCategorySelect('REAL ESTATE')}>{t('real estate')}</li>
       </ul>
     </nav>
   );

@@ -20,7 +20,7 @@ const LanguageSelection: React.FC<LanguageSelectionProps> = ({ onClose }) => {
       i18n.changeLanguage(lng);
       setSelectedLanguage(lng);
       localStorage.setItem('selectedLanguage', lng);
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
